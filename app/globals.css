@@ -1,26 +1,175 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-surface: #fbf9f8;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f5f3f3;
+  --color-surface-container: #efeded;
+  --color-on-surface: #1b1c1c;
+  --color-on-surface-variant: #46464d;
+
+  --color-primary: #181e34;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #2d334a;
+
+  --color-secondary: #835240;
+  --color-on-secondary: #ffffff;
+  --color-secondary-container: #febda6;
+
+  --color-outline-variant: #c6c6cd;
+  --color-error: #ba1a1a;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-surface: var(--color-surface);
+  --color-surface-container-lowest: var(--color-surface-container-lowest);
+  --color-surface-container-low: var(--color-surface-container-low);
+  --color-surface-container: var(--color-surface-container);
+  --color-on-surface: var(--color-on-surface);
+  --color-on-surface-variant: var(--color-on-surface-variant);
+
+  --color-primary: var(--color-primary);
+  --color-on-primary: var(--color-on-primary);
+  --color-primary-container: var(--color-primary-container);
+
+  --color-secondary: var(--color-secondary);
+  --color-on-secondary: var(--color-on-secondary);
+  --color-secondary-container: var(--color-secondary-container);
+
+  --color-outline-variant: var(--color-outline-variant);
+  --color-error: var(--color-error);
+
+  --font-display: var(--font-playfair), Georgia, serif;
+  --font-sans: var(--font-inter), Arial, sans-serif;
+
+  --shadow-soft: 0 4px 20px rgba(24, 30, 52, 0.05);
+
+  --container-edith: 1280px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/*
+  Tailwind v4 wraps its own rules in @layer base/components/utilities.
+  Unlayered CSS always wins over layered CSS regardless of specificity,
+  so custom rules must live in the same layers or they'll beat
+  responsive utilities like `lg:hidden`.
+*/
+@layer base {
+  body {
+    background: var(--color-surface);
+    color: var(--color-on-surface);
+    font-family: var(--font-sans);
+  }
+
+  [contenteditable="true"]:empty::before {
+    content: attr(data-placeholder);
+    color: var(--color-on-surface-variant);
+    white-space: pre-line;
+    pointer-events: none;
+  }
+
+  ::selection {
+    background: var(--color-secondary-container);
+  }
+
+  *:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  .font-display {
+    font-family: var(--font-display);
+  }
+
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .lede {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.25rem;
+    line-height: 1.6;
+    color: var(--color-on-surface-variant);
+    margin-bottom: 2em;
+  }
+
+  .prose-edith p {
+    margin-bottom: 1.5em;
+    line-height: 1.8;
+  }
+
+  .prose-edith h2 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.75rem;
+    margin-top: 2em;
+    margin-bottom: 0.75em;
+    color: var(--color-primary);
+  }
+
+  .prose-edith h3 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.35rem;
+    margin-top: 1.75em;
+    margin-bottom: 0.6em;
+    color: var(--color-primary);
+  }
+
+  .prose-edith ul,
+  .prose-edith ol {
+    margin: 1.25em 0;
+    padding-left: 1.5em;
+    line-height: 1.8;
+  }
+
+  .prose-edith ul {
+    list-style-type: disc;
+  }
+
+  .prose-edith ol {
+    list-style-type: decimal;
+  }
+
+  .prose-edith a {
+    color: var(--color-secondary);
+    text-decoration: underline;
+    text-decoration-color: var(--color-secondary-container);
+    text-underline-offset: 2px;
+  }
+
+  .prose-edith strong {
+    font-weight: 600;
+    color: var(--color-on-surface);
+  }
+
+  .prose-edith blockquote {
+    border-left: 2px solid var(--color-secondary);
+    padding-left: 1.25em;
+    margin: 1.75em 0;
+    font-style: italic;
+    color: var(--color-on-surface-variant);
+  }
+
+  .material-symbols-outlined {
+    font-family: "Material Symbols Outlined";
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-feature-settings: "liga";
+    font-feature-settings: "liga";
+    -webkit-font-smoothing: antialiased;
+  }
 }
