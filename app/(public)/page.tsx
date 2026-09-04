@@ -54,7 +54,12 @@ export default async function HomePage({
 
   return (
     <>
-      <section className="relative isolate overflow-hidden bg-primary">
+      <section
+        className="relative isolate overflow-hidden bg-primary bg-cover bg-center"
+        style={{ backgroundImage: "url(/images/header-bg.jpg)" }}
+      >
+        <div aria-hidden className="absolute inset-0 bg-primary/60" />
+
         <Navbar variant="transparent" />
 
         <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -67,7 +72,7 @@ export default async function HomePage({
         <Container className="relative pb-24 pt-36 lg:pb-36 lg:pt-48">
           <p className="eyebrow text-secondary-container">Clinical Elegance Edition</p>
           <h1 className="font-display mt-5 max-w-2xl text-5xl font-semibold leading-[1.08] text-on-primary lg:text-7xl">
-            The Science of Subsurface Glow
+            Clinical Skincare Insights &amp; Treatments
           </h1>
           <p className="mt-6 max-w-lg text-base leading-relaxed text-on-primary/70 lg:text-lg">
             A clinical journal exploring the cellular mechanics behind luminous, resilient skin —
@@ -78,7 +83,7 @@ export default async function HomePage({
               href={latestArticle ? `/article/${latestArticle.slug}` : "/#latest-insights"}
               className="eyebrow rounded bg-secondary px-7 py-3.5 text-on-secondary transition-opacity hover:opacity-90"
             >
-              Read Protocol →
+              Explore Our Research →
             </Link>
             <div className="flex items-center gap-3 text-sm text-on-primary/60">
               <span className="h-8 w-px bg-on-primary/20" aria-hidden />
