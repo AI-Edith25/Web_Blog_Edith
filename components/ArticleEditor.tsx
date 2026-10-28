@@ -203,18 +203,8 @@ export default function ArticleEditor({
       return;
     }
 
-    const data = await res.json();
-    const saved: Article = data.article;
     setSaving("idle");
-    setStatus(saved.status);
-    setLastSavedAt(saved.updatedAt);
-    setSlug(saved.slug);
-
-    if (mode === "create") {
-      router.push(`/studio/edit/${saved.id}`);
-    } else {
-      router.refresh();
-    }
+    router.push("/studio");
   }
 
   function handleSchedule() {
