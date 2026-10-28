@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { randomUUID } from "crypto";
 import fs from "fs";
 import path from "path";
+import { isObjectStorageConfigured, uploadToObjectStorage } from "@/lib/storage";
 
 export const dynamic = "force-dynamic";
 
@@ -35,10 +36,22 @@ export async function POST(request: NextRequest) {
   }
 
   const filename = `${randomUUID()}${extension}`;
+  const buffer = Buffer.from(await file.arrayBuffer());
+
+  // ponytail: local disk write stays as a dev-only fallback — the VPS has no
+  // shared/persistent uploads volume, so production must use object storage.
+  if (isObjectStorageConfigured()) {
+    try {
+      const url = await uploadToObjectStorage(filename, buffer, file.type);
+      return NextResponse.json({ url }, { status: 201 });
+    } catch (err) {
+      console.error("Object storage upload failed:", err);
+      return NextResponse.json({ error: "Image upload failed" }, { status: 502 });
+    }
+  }
+
   const uploadsDir = path.join(process.cwd(), "public", "uploads");
   fs.mkdirSync(uploadsDir, { recursive: true });
-
-  const buffer = Buffer.from(await file.arrayBuffer());
   fs.writeFileSync(path.join(uploadsDir, filename), buffer);
 
   return NextResponse.json({ url: `/uploads/${filename}` }, { status: 201 });
